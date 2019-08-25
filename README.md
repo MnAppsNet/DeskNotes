@@ -11,7 +11,7 @@ It is a note area with commands for quick and easy note taking.
 ----------------------------
 
 # Commands : 
-Commands are text commands you can tυπε to get some results quickly on your notes
+Commands are text commands you can type to get some results quickly on your notes
 you can see below the list of all available commands as for now.
 
 * Basic Calculations : \<SM\>N1 OP N2; where N1 and N2 is a number and OP = {+,-,/,*,^}
