@@ -19,4 +19,4 @@ you can see below the list of all available commands as for now.
 * Get Time           : \<SM\>time;  
 * Style text         : \<SM\>/ST TEXT /ST; where ST={b,i,u,s} whith b = bold, i = italic, u = underline, s = strike out
   
- *<SM> is special command symbol that can be set on the program*
+ *\<SM\> is special command symbol that can be set on the program*
