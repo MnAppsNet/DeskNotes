@@ -1,5 +1,5 @@
 
-#DeskNotes - By MnApps.NET
+# DeskNotes - By MnApps.NET
 
 ----------------------------
 
@@ -7,9 +7,10 @@ Desknotes was created as a helping tool for my work.
 Many times you need to access your notepad quicky to keep a note or
 do some calculations on the side. That is what Desknotes was made to serve.
 It is a note area with commands for quick and easy note taking.
+
 ----------------------------
 
-#Commands : 
+# Commands : 
 Commands are text commands you can tυπε to get some results quickly on your notes
 you can see below the list of all available commands as for now.
 
