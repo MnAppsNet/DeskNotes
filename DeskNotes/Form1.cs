@@ -442,7 +442,8 @@ namespace DeskNotes
                 }
             }catch(Exception error)
             {
-                MessageBox.Show(error.Message, "Error Occured", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if (Thread.CurrentThread.ThreadState != ThreadState.Aborted && Thread.CurrentThread.ThreadState != ThreadState.AbortRequested)
+                 MessageBox.Show(error.Message, "Error Occured", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         Thread AutoFunctionExecution;
