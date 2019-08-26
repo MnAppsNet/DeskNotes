@@ -11,3 +11,11 @@ C:\Users\ekalyvas\source\repos\DeskNotes\DeskNotes\obj\Debug\DeskNotes.pdb
 D:\Documents\Projects\C#\Visual Studio\DeskNotes\DeskNotes\bin\Debug\DeskNotes.exe.config
 D:\Documents\Projects\C#\Visual Studio\DeskNotes\DeskNotes\obj\Debug\DeskNotes.exe
 D:\Documents\Projects\C#\Visual Studio\DeskNotes\DeskNotes\obj\Debug\DeskNotes.pdb
+C:\Users\ekalyvas\Source\Repos\MnAppsNet\DeskNotes\DeskNotes\obj\Debug\DeskNotes.csprojAssemblyReference.cache
+C:\Users\ekalyvas\Source\Repos\MnAppsNet\DeskNotes\DeskNotes\obj\Debug\DeskNotes.Arrow.resources
+C:\Users\ekalyvas\Source\Repos\MnAppsNet\DeskNotes\DeskNotes\obj\Debug\DeskNotes.Form1.resources
+C:\Users\ekalyvas\Source\Repos\MnAppsNet\DeskNotes\DeskNotes\obj\Debug\DeskNotes.Properties.Resources.resources
+C:\Users\ekalyvas\Source\Repos\MnAppsNet\DeskNotes\DeskNotes\obj\Debug\DeskNotes.csproj.GenerateResource.cache
+C:\Users\ekalyvas\Source\Repos\MnAppsNet\DeskNotes\DeskNotes\obj\Debug\DeskNotes.csproj.CoreCompileInputs.cache
+C:\Users\ekalyvas\Source\Repos\MnAppsNet\DeskNotes\DeskNotes\obj\Debug\DeskNotes.exe
+C:\Users\ekalyvas\Source\Repos\MnAppsNet\DeskNotes\DeskNotes\obj\Debug\DeskNotes.pdb

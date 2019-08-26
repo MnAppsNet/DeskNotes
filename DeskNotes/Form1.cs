@@ -68,6 +68,7 @@ namespace DeskNotes
             if (System.IO.File.Exists(Properties.Settings.Default.last_opened_file))
             {
                 richTextBox1.LoadFile(Properties.Settings.Default.last_opened_file);
+                CurrentFile = Properties.Settings.Default.last_open_file;
             }
             richTextBox1.Update();
         }
