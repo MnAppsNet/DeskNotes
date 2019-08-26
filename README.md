@@ -1,4 +1,3 @@
-
 # DeskNotes - By MnApps.NET
 Desknotes was created as a helping tool for my work. 
 Many times you need to access your notepad quicky to keep a note or
@@ -12,7 +11,7 @@ It is a note area with commands for quick and easy note taking.
 * Middle click on the arrow when it is pointing right to close the program
 
 # Commands : 
-Commands are text commands you can type to get some results quickly on your notes
+Commands are text commands you can type to get some results quickly on your notes,
 you can see below the list of all available commands as for now.
 
 * Basic Calculations : \<SM\>N1 OP N2; where N1 and N2 is a number and OP = {+,-,/,*,^}
