@@ -414,11 +414,13 @@ namespace DeskNotes
 
         private void CheckForFunctions()
         {
-            if (Thread.CurrentThread.Name == "FunctionCheck") //Check if we are not on main thread
+            try
             {
+                if (Thread.CurrentThread.Name == "FunctionCheck") //Check if we are not on main thread
+                {
                     int funcIndex = -1;
                     bool FoundChanges = false;
-                    FoundChanges = ((funcIndex = Functions.FunctionFound(Tools.GetControlProperty(richTextBox1,"Text").ToString())) != -1);
+                    FoundChanges = ((funcIndex = Functions.FunctionFound(Tools.GetControlProperty(richTextBox1, "Text").ToString())) != -1);
                     if (FoundChanges && funcIndex != -1)
                     {
                         Control tmprtb = richTextBox1;
@@ -428,15 +430,19 @@ namespace DeskNotes
                     Thread.Sleep(500);
                     if (Thread.CurrentThread.ThreadState != ThreadState.Aborted && Thread.CurrentThread.ThreadState != ThreadState.AbortRequested)
                         CheckForFunctions(); //Check again if thread not aborted
-            }
-            else
-            {
-                int i;
-                if ((i = Functions.FunctionFound(richTextBox1.Text)) != -1)
-                {
-                    Control tmprtb = richTextBox1;
-                    Functions.CheckAndExecute(ref tmprtb, i);
                 }
+                else
+                {
+                    int i;
+                    if ((i = Functions.FunctionFound(richTextBox1.Text)) != -1)
+                    {
+                        Control tmprtb = richTextBox1;
+                        Functions.CheckAndExecute(ref tmprtb, i);
+                    }
+                }
+            }catch(Exception error)
+            {
+                MessageBox.Show(error.Message, "Error Occured", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         Thread AutoFunctionExecution;
