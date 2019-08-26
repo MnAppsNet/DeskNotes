@@ -418,18 +418,23 @@ namespace DeskNotes
             {
                 if (Thread.CurrentThread.Name == "FunctionCheck") //Check if we are not on main thread
                 {
-                    int funcIndex = -1;
-                    bool FoundChanges = false;
-                    FoundChanges = ((funcIndex = Functions.FunctionFound(Tools.GetControlProperty(richTextBox1, "Text").ToString())) != -1);
-                    if (FoundChanges && funcIndex != -1)
+                    do
                     {
-                        Control tmprtb = richTextBox1;
-                        Functions.CheckAndExecute(ref tmprtb, funcIndex);
-                    }
+                        int funcIndex = -1;
+                        bool FoundChanges = false;
+                        FoundChanges = ((funcIndex = Functions.FunctionFound(Tools.GetControlProperty(richTextBox1, "Text").ToString())) != -1);
+                        if (FoundChanges && funcIndex != -1)
+                        {
+                            Control tmprtb = richTextBox1;
+                            try
+                            {
+                                Functions.CheckAndExecute(ref tmprtb, funcIndex);
+                            }
+                            catch { }
+                        }
 
-                    Thread.Sleep(500);
-                    if (Thread.CurrentThread.ThreadState != ThreadState.Aborted && Thread.CurrentThread.ThreadState != ThreadState.AbortRequested)
-                        CheckForFunctions(); //Check again if thread not aborted
+                        Thread.Sleep(500);
+                    } while (Thread.CurrentThread.ThreadState != ThreadState.Aborted && Thread.CurrentThread.ThreadState != ThreadState.AbortRequested);
                 }
                 else
                 {

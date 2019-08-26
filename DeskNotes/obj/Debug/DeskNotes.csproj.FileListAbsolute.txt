@@ -8,3 +8,4 @@ C:\Users\ekalyvas\Source\Repos\MnAppsNet\DeskNotes\DeskNotes\bin\Debug\DeskNotes
 C:\Users\ekalyvas\Source\Repos\MnAppsNet\DeskNotes\DeskNotes\bin\Debug\DeskNotes.pdb
 C:\Users\ekalyvas\Source\Repos\MnAppsNet\DeskNotes\DeskNotes\obj\Debug\DeskNotes.exe
 C:\Users\ekalyvas\Source\Repos\MnAppsNet\DeskNotes\DeskNotes\obj\Debug\DeskNotes.pdb
+C:\Users\ekalyvas\Source\Repos\MnAppsNet\DeskNotes\DeskNotes\obj\Debug\DeskNotes.csprojAssemblyReference.cache

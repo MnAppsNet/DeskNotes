@@ -85,7 +85,7 @@ namespace DeskNotes
                     results[i] = getDate(match);
                 }
                 else if (func == functions[1]){ //Full Date
-                    results[i] = DateTime.Now.Date.ToString();
+                    results[i] = DateTime.Now.Date.ToShortDateString();
                 }
                 else if (func == functions[2]) //Full Time
                 {
