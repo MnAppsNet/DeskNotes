@@ -18,6 +18,6 @@ you can see below the list of all available commands as for now.
 * Get Formated Date  : \<SM\>DD.MM.YY;  OR  \<SM\>MM.DD.YYYY;  OR any variation of the three
 * Get Full Date      : \<SM\>date;
 * Get Time           : \<SM\>time;  
-* Style text         : \<SM\>/ST TEXT /ST; where ST={b,i,u,s} with b = bold, i = italic, u = underline, s = strike out
+* Style text         : \<SM\>/ST TEXT /ST; where ST={b,i,u,s,p} with b = bold, i = italic, u = underline, s = strike out, p = protected text
   
  *\<SM\> is special command symbol that can be set on the program*
