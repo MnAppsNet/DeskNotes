@@ -36,6 +36,7 @@ namespace DeskNotes
             string s;                                                       //functions starting from
             for (int i = StartingFunctionIndex; i < functions.Length; i++) //'StartingFunctionIndex' index
             {
+                if (CommandSymbol == " ") CommandSymbol = "";
                 s = Regex.Escape(CommandSymbol) + @" *" + functions[i];
                 MatchCollection matches = null;
 
@@ -62,13 +63,18 @@ namespace DeskNotes
             string s;
             for (int i = 0; i < functions.Length; i++)
             {
-                s = functions[i];
-                MatchCollection matches = Tools.GetRegexMatches(s,text);
-                if (matches.Count > 0)
+                try
                 {
-                    found = i;
-                    break;
+                    if (CommandSymbol == " ") CommandSymbol = "";
+                    s = Regex.Escape(CommandSymbol) + @" *" + functions[i];
+                    MatchCollection matches = Tools.GetRegexMatches(s, text);
+                    if (matches.Count > 0)
+                    {
+                        found = i;
+                        break;
+                    }
                 }
+                catch { }
             }
             return found;
         }
@@ -100,12 +106,14 @@ namespace DeskNotes
                 //}
                 else if (func == functions[3])
                 {
+                    string Match = match.Value;
+                    if (Match.StartsWith(CommandSymbol) && CommandSymbol != "") Match = Match.Substring(1, Match.Length - 1);
                     string operants = "+-/*^";
-                    if (match.Value.Length > 3 && match.Value.Any(char.IsDigit) && match.Value.Any(c => operants.Contains(c)))
+                    if (Match.Length > 3 && Match.Any(char.IsDigit) && Match.Any(c => operants.Contains(c)))
                     {
                         try
                         {
-                            double result = Tools.calculateExpression(match.Value);
+                            double result = Tools.calculateExpression(Match);
                             if (result.ToString() != "NaN")
                                 results[i] = result.ToString();
                             else

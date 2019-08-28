@@ -104,7 +104,7 @@
             this.toolStripSeparator3,
             this.executeCommandsToolStripMenuItem});
             this.Menu.Name = "contextMenuStrip1";
-            this.Menu.Size = new System.Drawing.Size(264, 412);
+            this.Menu.Size = new System.Drawing.Size(264, 445);
             // 
             // undoCTRLZToolStripMenuItem
             // 
@@ -383,7 +383,8 @@
             "$",
             "#",
             "?",
-            "@"});
+            "@",
+            " "});
             this.CommandSymbolInput.Name = "CommandSymbolInput";
             this.CommandSymbolInput.Size = new System.Drawing.Size(121, 33);
             this.CommandSymbolInput.TextChanged += new System.EventHandler(this.CommandSymbolInput_TextChanged);

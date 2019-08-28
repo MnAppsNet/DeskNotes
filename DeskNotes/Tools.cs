@@ -82,6 +82,21 @@ namespace DeskNotes
         public static double calculateExpression(string expression)
         {
             MatchCollection matches;
+
+            //Correct input expression :
+            matches = Tools.GetRegexMatches(@"(?:\d+ *\()|(?:\) *\d+)", expression);
+            foreach (Match m in matches)
+            {
+                expression = expression.Replace(m.Value,
+
+                    (m.Value.Contains("("))
+                    ?( m.Value.Trim().Replace("(","") + "*(" )
+                    :( ")*" + m.Value.Trim().Replace(")", ""))
+                    );
+            }
+            expression = expression.Trim().Replace("--", "+");
+
+            //Clear parenthesis :
             do
             {
                 matches = Tools.GetRegexMatches(@"\((?: *-?\+?\d+(?:[,.]\d+)? *[+\-\/*^]?)+ *\)", expression);
@@ -92,67 +107,21 @@ namespace DeskNotes
             }
             while (matches.Count != 0);
 
-            MatchCollection M = null;
-            do
-            {
-                //Power
-                M = Tools.GetRegexMatches(@"(-?\d+(?:[,.]\d+)?) *\^ *(\d+(?:[,.]\d+)?)", expression);
-                foreach (Match m in M)
-                    expression = expression.Replace(m.Value, Tools.culculate(new double[] {
-                        double.Parse(m.Groups[1].Value.Replace(",", "."), System.Globalization.CultureInfo.InvariantCulture),
-                        double.Parse(m.Groups[2].Value.Replace(",", "."), System.Globalization.CultureInfo.InvariantCulture)
-                    }, 
-                    "^").ToString());
-            }
-            while (expression.Contains("^") && M.Count != 0);
-            do
-            {
-                //Division
-                M = Tools.GetRegexMatches(@"(-?\d+(?:[,.]\d+)?) *\/ *(\d+(?:[,.]\d+)?)", expression);
-                foreach (Match m in M)
-                    expression = expression.Replace(m.Value, Tools.culculate(new double[] {
-                        double.Parse(m.Groups[1].Value.Replace(",", "."), System.Globalization.CultureInfo.InvariantCulture),
-                        double.Parse(m.Groups[2].Value.Replace(",", "."), System.Globalization.CultureInfo.InvariantCulture)
-                    },
-                    "/").ToString());
-            }
-            while (expression.Contains("/") && M.Count != 0);
-            do
-            {
-                //Multiply
-                M = Tools.GetRegexMatches(@"(-?\d+(?:[,.]\d+)?) *\* *(\d+(?:[,.]\d+)?)", expression);
-                foreach (Match m in M)
-                    expression = expression.Replace(m.Value, Tools.culculate(new double[] {
-                        double.Parse(m.Groups[1].Value.Replace(",", "."), System.Globalization.CultureInfo.InvariantCulture),
-                        double.Parse(m.Groups[2].Value.Replace(",", "."), System.Globalization.CultureInfo.InvariantCulture)
-                    },
-                    "*").ToString());
-            }
-            while (expression.Contains("*") && M.Count != 0);
-            //Addition
-            do
-            {
-                M = Tools.GetRegexMatches(@"(-?\d+(?:[,.]\d+)?) *\+ *(\d+(?:[,.]\d+)?)", expression);
-                foreach (Match m in M)
-                    expression = expression.Replace(m.Value, Tools.culculate(new double[] {
-                        double.Parse(m.Groups[1].Value.Replace(",", "."), System.Globalization.CultureInfo.InvariantCulture),
-                        double.Parse(m.Groups[2].Value.Replace(",", "."), System.Globalization.CultureInfo.InvariantCulture)
-                    },
-                    "+").ToString());
-            }
-            while (expression.Contains("+") && M.Count != 0);
-            //Subtraction
-            do
-            {
-                M = Tools.GetRegexMatches(@"(-?\d+(?:[,.]\d+)?) *\- *(\d+(?:[,.]\d+)?)", expression);
-                foreach (Match m in M)
-                    expression = expression.Replace(m.Value, Tools.culculate(new double[] {
-                        double.Parse(m.Groups[1].Value.Replace(",", "."), System.Globalization.CultureInfo.InvariantCulture),
-                        double.Parse(m.Groups[2].Value.Replace(",", "."), System.Globalization.CultureInfo.InvariantCulture)
-                    },
-                    "-").ToString());
-            }
-            while (expression.Contains("-") && !expression.StartsWith("-") && M.Count != 0);
+            //Calculate powers :
+            operantSpecificCalculations(ref expression, "^");
+
+            //Calculate divisions :
+            operantSpecificCalculations(ref expression, "/");
+
+            //Calculate Multiplication
+            operantSpecificCalculations(ref expression, "*");
+
+            //Calculate Addition
+            operantSpecificCalculations(ref expression, "+");
+
+            //Calculate Subtraction
+            operantSpecificCalculations(ref expression, "-");
+
             if (expression.EndsWith(";"))
                 expression = expression.Substring(0, expression.Length - 1);
             try
@@ -163,6 +132,21 @@ namespace DeskNotes
             {
                 return double.NaN;
             }
+        }
+        public static void operantSpecificCalculations(ref string expression, string operant)
+        { //Used to make operant specific calculations in the numeric expresion
+            MatchCollection M = null;
+            do
+            {
+                M = Tools.GetRegexMatches(@"(-?\d+(?:[,.]\d+)?) *" + Regex.Escape(operant) + @" *(-?\d+(?:[,.]\d+)?)", expression);
+                foreach (Match m in M)
+                    expression = expression.Replace(m.Value, Tools.culculate(new double[] {
+                        double.Parse(m.Groups[1].Value.Replace(",", "."), System.Globalization.CultureInfo.InvariantCulture),
+                        double.Parse(m.Groups[2].Value.Replace(",", "."), System.Globalization.CultureInfo.InvariantCulture)
+                    },
+                    operant).ToString());
+            }
+            while (expression.Contains(operant) && M.Count != 0 && !isNumber(expression));
         }
         public static double culculate(double[] Nums, string operant)
         {
@@ -195,6 +179,17 @@ namespace DeskNotes
                     break;
             }
             return result;
+        }
+        public static bool isNumber(string num)
+        {
+            try
+            {
+                double.Parse(num.Replace(",", "."), System.Globalization.CultureInfo.InvariantCulture);
+                return true;
+            }catch
+            {
+                return false;
+            }
         }
         public static System.Text.RegularExpressions.MatchCollection GetRegexMatches(string rex, string text)
         {
