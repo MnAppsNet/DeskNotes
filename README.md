@@ -14,10 +14,10 @@ It is a note area with commands for quick and easy note taking.
 Commands are text commands you can type to get some results quickly on your notes,
 you can see below the list of all available commands as for now.
 
-* Basic Calculations : \<SM\>N1 OP N2; where N1 and N2 is a number and OP = {+,-,/,*,^}
-* Get Formated Date  : \<SM\>DD.MM.YY;  OR  \<SM\>MM.DD.YYYY;  OR any variation of the three
-* Get Full Date      : \<SM\>date;
-* Get Time           : \<SM\>time;  
-* Style text         : \<SM\>/ST TEXT /ST; where ST={b,i,u,s,p} with b = bold, i = italic, u = underline, s = strike out, p = protected text
+* Numeric expression calculations : \<SM\>expression; expression can contain : [1-9]+-/*^(),.
+* Get Formated Date               : \<SM\>DD.MM.YY;  OR  \<SM\>MM.DD.YYYY;  OR any variation of the three
+* Get Full Date                   : \<SM\>date;
+* Get Time                        : \<SM\>time;  
+* Style text                      : \<SM\>/ST TEXT /ST; where ST={b,i,u,s,p} with b = bold, i = italic, u = underline, s = strike out, p = protected text
   
  *\<SM\> is special command symbol that can be set on the program*
