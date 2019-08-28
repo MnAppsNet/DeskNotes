@@ -30,8 +30,8 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
-            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.TextView = new System.Windows.Forms.RichTextBox();
+            this.Menu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.undoCTRLZToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.redoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -65,28 +65,28 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.bg_color = new System.Windows.Forms.Panel();
             this.txt_color = new System.Windows.Forms.Label();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.contextMenuStrip1.SuspendLayout();
+            this.TopMostOption = new System.Windows.Forms.CheckBox();
+            this.Menu.SuspendLayout();
             this.bg_color.SuspendLayout();
             this.SuspendLayout();
             // 
-            // richTextBox1
+            // TextView
             // 
-            this.richTextBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.richTextBox1.ContextMenuStrip = this.contextMenuStrip1;
-            this.richTextBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.richTextBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
-            this.richTextBox1.Location = new System.Drawing.Point(5, 0);
-            this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(118, 117);
-            this.richTextBox1.TabIndex = 0;
-            this.richTextBox1.Text = "";
-            this.richTextBox1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FormatSelection);
+            this.TextView.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.TextView.ContextMenuStrip = this.Menu;
+            this.TextView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.TextView.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
+            this.TextView.Location = new System.Drawing.Point(5, 0);
+            this.TextView.Name = "TextView";
+            this.TextView.Size = new System.Drawing.Size(118, 117);
+            this.TextView.TabIndex = 0;
+            this.TextView.Text = "";
+            this.TextView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FormatSelection);
             // 
-            // contextMenuStrip1
+            // Menu
             // 
-            this.contextMenuStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
-            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.Menu.ImageScalingSize = new System.Drawing.Size(24, 24);
+            this.Menu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.undoCTRLZToolStripMenuItem,
             this.redoToolStripMenuItem,
             this.deleteAllToolStripMenuItem,
@@ -103,8 +103,8 @@
             this.alignToolStripMenuItem,
             this.toolStripSeparator3,
             this.executeCommandsToolStripMenuItem});
-            this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(264, 412);
+            this.Menu.Name = "contextMenuStrip1";
+            this.Menu.Size = new System.Drawing.Size(264, 412);
             // 
             // undoCTRLZToolStripMenuItem
             // 
@@ -423,27 +423,27 @@
             this.txt_color.Text = "Abc";
             this.txt_color.Click += new System.EventHandler(this.ChangeColors);
             // 
-            // checkBox1
+            // TopMostOption
             // 
-            this.checkBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(-21, 92);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.checkBox1.Size = new System.Drawing.Size(97, 24);
-            this.checkBox1.TabIndex = 3;
-            this.checkBox1.Text = "TopMost";
-            this.checkBox1.UseVisualStyleBackColor = true;
-            this.checkBox1.CheckedChanged += new System.EventHandler(this.CheckBox1_CheckedChanged);
+            this.TopMostOption.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.TopMostOption.AutoSize = true;
+            this.TopMostOption.Location = new System.Drawing.Point(-21, 92);
+            this.TopMostOption.Name = "TopMostOption";
+            this.TopMostOption.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.TopMostOption.Size = new System.Drawing.Size(97, 24);
+            this.TopMostOption.TabIndex = 3;
+            this.TopMostOption.Text = "TopMost";
+            this.TopMostOption.UseVisualStyleBackColor = true;
+            this.TopMostOption.CheckedChanged += new System.EventHandler(this.CheckBox1_CheckedChanged);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(123, 117);
-            this.Controls.Add(this.checkBox1);
+            this.Controls.Add(this.TopMostOption);
             this.Controls.Add(this.bg_color);
-            this.Controls.Add(this.richTextBox1);
+            this.Controls.Add(this.TextView);
             this.Controls.Add(this.panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -455,7 +455,7 @@
             this.Load += new System.EventHandler(this.Form1_Load);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.Form1_Paint);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FormatSelection);
-            this.contextMenuStrip1.ResumeLayout(false);
+            this.Menu.ResumeLayout(false);
             this.bg_color.ResumeLayout(false);
             this.bg_color.PerformLayout();
             this.ResumeLayout(false);
@@ -465,11 +465,11 @@
 
         #endregion
 
-        private System.Windows.Forms.RichTextBox richTextBox1;
+        private System.Windows.Forms.RichTextBox TextView;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel bg_color;
         private System.Windows.Forms.Label txt_color;
-        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ContextMenuStrip Menu;
         private System.Windows.Forms.ToolStripMenuItem undoCTRLZToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem redoToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
@@ -490,7 +490,7 @@
         private System.Windows.Forms.ToolStripMenuItem groupToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem changeColorToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem deleteAllToolStripMenuItem;
-        public System.Windows.Forms.CheckBox checkBox1;
+        public System.Windows.Forms.CheckBox TopMostOption;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.ToolStripMenuItem executeCommandsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem autoExecution;

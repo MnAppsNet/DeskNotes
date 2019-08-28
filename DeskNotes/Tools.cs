@@ -92,8 +92,9 @@ namespace DeskNotes
                         result = result + d;
                     break;
                 case ("-"):
-                    foreach (double d in Nums)
-                        result = result - d;
+                    result = Nums[0];
+                    for (int i = 1; i < Nums.Length; i++)
+                        result = result - Nums[i];
                     break;
                 case ("*"):
                     result = Nums[0];

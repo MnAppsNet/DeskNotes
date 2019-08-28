@@ -15,8 +15,9 @@ namespace DeskNotes
             @"(D{2}|M{2}|Y{2}|Y{4})[,.|\\\/:](D{2}|M{2}|Y{2}|Y{4})[,.|\\\/:](D{2}|M{2}|Y{2}|Y{4});",  // Date in DD/MM/YY format : $DD.MM.YY; or $MM.DD.YY; and any combination between
             @"[Dd][Aa][Tt][Ee];",                                                                     // Full date               : $date;
             @"[Tt][Ii][Mm][Ee];",                                                                     // Full time               : $time;
-            @"(\-?\d+(?:[.,]\d+)?) *([\+\-\*\/\^]) *(\-?\d+(?:[.,]\d+)?);",                           // Basic Calculations      : $ NUM1 OP NUM2; where NUMX = 0 - 9 and OP = +,-,*,/,^
-            @"\/([bBiIuUpPsS])(.*);"                                                                      // Style text              : $/OP TEXT; where OP = i, b or u             
+            //@"(\-?\d+(?:[.,]\d+)?) *([\+\-\*\/\^]) *(\-?\d+(?:[.,]\d+)?);",                           // Basic Calculations      : $ NUM1 OP NUM2; where NUMX = 0 - 9 and OP = +,-,*,/,^
+            @"[0123456789( )+-\/*^,.]+;",                                                              // Numeric expression calculation
+            @"\/([bBiIuUpPsS])(.*);"                                                                  // Style text              : $/OP TEXT; where OP = i, b or u             
         };
 
         #region -------- Public Methods --------
@@ -91,10 +92,30 @@ namespace DeskNotes
                 {
                     results[i] = DateTime.Now.ToString("HH:mm:ss");
                 }
-                else if (func == functions[3]) //Basic calculations (+,-,/,*,^)
+                //else if (func == functions[3]) //Basic calculations (+,-,/,*,^)
+                //{
+                //    double result = getCalculations(match);
+                //    results[i] = result.ToString();
+                //}
+                else if (func == functions[3])
                 {
-                    double result = getCalculations(match);
-                    results[i] = result.ToString();
+                    string operants = "+-/*^";
+                    if (match.Value.Length > 3 && match.Value.Any(char.IsDigit) && match.Value.Any(c => operants.Contains(c)))
+                    {
+                        try
+                        {
+                            double result = calculateExpression(match.Value);
+                            if (result.ToString() != "NaN")
+                                results[i] = result.ToString();
+                            else
+                                results = null;
+                        }
+                        catch
+                        {
+                            results = null;
+                        }
+                    }
+                    else results = null;
                 }
                 else if (func == functions[4])
                 {
@@ -120,6 +141,91 @@ namespace DeskNotes
                         match.Groups[3].Value,
                         Tools.formatDate(match.Groups[3].Value)).
                         Replace(CommandSymbol, "").Replace(";", "");
+        }
+        private static double calculateExpression(string expression)
+        {
+            MatchCollection matches;
+            do
+            {
+                matches = Tools.GetRegexMatches(@"\((?: *-?\+?\d+(?:[,.]\d+)? *[+\-\/*^]?)+ *\)", expression);
+                foreach (Match m in matches)
+                {
+                    expression = expression.Replace(m.Value, calculateExpression(m.Value.Substring(1, m.Value.Length - 2)).ToString());
+                }
+            }
+            while (matches.Count != 0);
+
+            MatchCollection M = null;
+            do
+            {
+                //Power
+                M = Tools.GetRegexMatches(@"(-?\d+(?:[,.]\d+)?) *\^ *(\d+(?:[,.]\d+)?)", expression);
+                foreach (Match m in M)
+                    expression = expression.Replace(m.Value, Tools.culculate(new double[] {
+                        double.Parse(m.Groups[1].Value.Replace(",", "."), System.Globalization.CultureInfo.InvariantCulture),
+                        double.Parse(m.Groups[2].Value.Replace(",", "."), System.Globalization.CultureInfo.InvariantCulture)
+                    }, 
+                    "^").ToString());
+            }
+            while (expression.Contains("^") && M.Count != 0);
+            do
+            {
+                //Division
+                M = Tools.GetRegexMatches(@"(-?\d+(?:[,.]\d+)?) *\/ *(\d+(?:[,.]\d+)?)", expression);
+                foreach (Match m in M)
+                    expression = expression.Replace(m.Value, Tools.culculate(new double[] {
+                        double.Parse(m.Groups[1].Value.Replace(",", "."), System.Globalization.CultureInfo.InvariantCulture),
+                        double.Parse(m.Groups[2].Value.Replace(",", "."), System.Globalization.CultureInfo.InvariantCulture)
+                    },
+                    "/").ToString());
+            }
+            while (expression.Contains("/") && M.Count != 0);
+            do
+            {
+                //Multiply
+                M = Tools.GetRegexMatches(@"(-?\d+(?:[,.]\d+)?) *\* *(\d+(?:[,.]\d+)?)", expression);
+                foreach (Match m in M)
+                    expression = expression.Replace(m.Value, Tools.culculate(new double[] {
+                        double.Parse(m.Groups[1].Value.Replace(",", "."), System.Globalization.CultureInfo.InvariantCulture),
+                        double.Parse(m.Groups[2].Value.Replace(",", "."), System.Globalization.CultureInfo.InvariantCulture)
+                    },
+                    "*").ToString());
+            }
+            while (expression.Contains("*") && M.Count != 0);
+            //Addition
+            do
+            {
+                M = Tools.GetRegexMatches(@"(-?\d+(?:[,.]\d+)?) *\+ *(\d+(?:[,.]\d+)?)", expression);
+                foreach (Match m in M)
+                    expression = expression.Replace(m.Value, Tools.culculate(new double[] {
+                        double.Parse(m.Groups[1].Value.Replace(",", "."), System.Globalization.CultureInfo.InvariantCulture),
+                        double.Parse(m.Groups[2].Value.Replace(",", "."), System.Globalization.CultureInfo.InvariantCulture)
+                    },
+                    "+").ToString());
+            }
+            while (expression.Contains("+") && M.Count != 0);
+            //Subtraction
+            do
+            {
+                M = Tools.GetRegexMatches(@"(-?\d+(?:[,.]\d+)?) *\- *(\d+(?:[,.]\d+)?)", expression);
+                foreach (Match m in M)
+                    expression = expression.Replace(m.Value, Tools.culculate(new double[] {
+                        double.Parse(m.Groups[1].Value.Replace(",", "."), System.Globalization.CultureInfo.InvariantCulture),
+                        double.Parse(m.Groups[2].Value.Replace(",", "."), System.Globalization.CultureInfo.InvariantCulture)
+                    },
+                    "-").ToString());
+            }
+            while (expression.Contains("-") && !expression.StartsWith("-") && M.Count != 0);
+            if (expression.EndsWith(";"))
+                expression = expression.Substring(0, expression.Length - 1);
+            try
+            {
+                return double.Parse(expression.Replace(",", "."), System.Globalization.CultureInfo.InvariantCulture);
+            }
+            catch
+            {
+                return double.NaN;
+            }
         }
         private static double getCalculations(Match match)
         {

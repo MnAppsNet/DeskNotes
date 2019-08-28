@@ -49,7 +49,7 @@ namespace DeskNotes
                 }
                 else if (e.Button == MouseButtons.Middle)
                 {
-                    main_form.checkBox1.Checked = !main_form.checkBox1.Checked;
+                    main_form.TopMostOption.Checked = !main_form.TopMostOption.Checked;
                     return;
                 }
                 main_form.Show_Panel();

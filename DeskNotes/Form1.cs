@@ -53,24 +53,24 @@ namespace DeskNotes
                 SFD.Filter = "RTF File|*.rtf";
                 if (SFD.ShowDialog() == DialogResult.OK)
                 {
-                    richTextBox1.SaveFile(SFD.FileName);
+                    TextView.SaveFile(SFD.FileName);
                     CurrentFile = SFD.FileName;
                     Properties.Settings.Default.last_opened_file = CurrentFile;
                     Properties.Settings.Default.Save();
                 }
             }else if (CurrentFile != "")
             {
-                richTextBox1.SaveFile(CurrentFile);
+                TextView.SaveFile(CurrentFile);
             }
         }
         private void load()
         {
             if (System.IO.File.Exists(Properties.Settings.Default.last_opened_file))
             {
-                richTextBox1.LoadFile(Properties.Settings.Default.last_opened_file);
+                TextView.LoadFile(Properties.Settings.Default.last_opened_file);
                 CurrentFile = Properties.Settings.Default.last_opened_file;
             }
-            richTextBox1.Update();
+            TextView.Update();
         }
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -97,7 +97,6 @@ namespace DeskNotes
                 }
                 catch { }
             }
-
             new Thread(() =>
             {
                 Thread.Sleep(100);
@@ -112,7 +111,6 @@ namespace DeskNotes
 
             }).Start();
         }
-
         private void Form1_Paint(object sender, PaintEventArgs e)
         {
             if (!this.TopMost)
@@ -165,10 +163,10 @@ namespace DeskNotes
             }
             bg_color.BackColor = Properties.Settings.Default.bg_color;
             txt_color.ForeColor = Properties.Settings.Default.txt_color;
-            richTextBox1.BackColor = Properties.Settings.Default.bg_color;
-            checkBox1.BackColor = Properties.Settings.Default.bg_color;
-            checkBox1.ForeColor = Properties.Settings.Default.txt_color;
-            richTextBox1.ForeColor = Properties.Settings.Default.txt_color;
+            TextView.BackColor = Properties.Settings.Default.bg_color;
+            TopMostOption.BackColor = Properties.Settings.Default.bg_color;
+            TopMostOption.ForeColor = Properties.Settings.Default.txt_color;
+            TextView.ForeColor = Properties.Settings.Default.txt_color;
         }
 
         private void MenuClick(object sender, EventArgs e)
@@ -177,7 +175,6 @@ namespace DeskNotes
             if (option != "")
                 Format(option);
         }
-
         private void FormatSelection(object sender, KeyEventArgs e)
         {
             if (e.Control)
@@ -195,16 +192,16 @@ namespace DeskNotes
                     {
                         SelectCurrentLine();
                         FontStyle style = new FontStyle();
-                        if (richTextBox1.SelectionFont.Bold)
+                        if (TextView.SelectionFont.Bold)
                             style = style | FontStyle.Regular;
                         else
                             style = style | FontStyle.Bold;
-                        if (richTextBox1.SelectionFont.Italic)
+                        if (TextView.SelectionFont.Italic)
                             style = style | FontStyle.Italic;
-                        if (richTextBox1.SelectionFont.Underline)
+                        if (TextView.SelectionFont.Underline)
                             style = style | FontStyle.Underline;
-                        richTextBox1.SelectionFont = new Font(richTextBox1.SelectionFont, style);
-                        richTextBox1.DeselectAll();
+                        TextView.SelectionFont = new Font(TextView.SelectionFont, style);
+                        TextView.DeselectAll();
                     }
                     catch { };
                     break;
@@ -214,17 +211,17 @@ namespace DeskNotes
                     {
                         SelectCurrentLine();
                         FontStyle style = new FontStyle();
-                        if (richTextBox1.SelectionFont.Italic)
+                        if (TextView.SelectionFont.Italic)
                             style = style | FontStyle.Regular;
                         else
                             style = style | FontStyle.Italic;
-                        if (richTextBox1.SelectionFont.Bold)
+                        if (TextView.SelectionFont.Bold)
                             style = style | FontStyle.Bold;
-                        if (richTextBox1.SelectionFont.Underline)
+                        if (TextView.SelectionFont.Underline)
                             style = style | FontStyle.Underline;
 
-                        richTextBox1.SelectionFont = new Font(richTextBox1.SelectionFont, style);
-                        richTextBox1.DeselectAll();
+                        TextView.SelectionFont = new Font(TextView.SelectionFont, style);
+                        TextView.DeselectAll();
                     }
                     catch { };
                     break;
@@ -233,17 +230,17 @@ namespace DeskNotes
                     {
                         SelectCurrentLine();
                         FontStyle style = new FontStyle();
-                        if (richTextBox1.SelectionFont.Underline)
+                        if (TextView.SelectionFont.Underline)
                             style = style | FontStyle.Regular;
                         else
                             style = style | FontStyle.Underline;
-                        if (richTextBox1.SelectionFont.Italic)
+                        if (TextView.SelectionFont.Italic)
                             style = style | FontStyle.Italic;
-                        if (richTextBox1.SelectionFont.Bold)
+                        if (TextView.SelectionFont.Bold)
                             style = style | FontStyle.Bold;
 
-                        richTextBox1.SelectionFont = new Font(richTextBox1.SelectionFont, style);
-                        richTextBox1.DeselectAll();
+                        TextView.SelectionFont = new Font(TextView.SelectionFont, style);
+                        TextView.DeselectAll();
                     }
                     catch { };
                     break;
@@ -252,72 +249,72 @@ namespace DeskNotes
                     {
                         SelectCurrentLine();
                         FontDialog fd = new FontDialog();
-                        fd.Font = richTextBox1.SelectionFont;
+                        fd.Font = TextView.SelectionFont;
                         if (fd.ShowDialog() == DialogResult.OK)
                         {
-                            richTextBox1.SelectionFont = fd.Font;
+                            TextView.SelectionFont = fd.Font;
                         }
-                        richTextBox1.DeselectAll();
+                        TextView.DeselectAll();
                     }
                     catch { };
                     break;
                 case "UP":
-                    richTextBox1.SelectionAlignment = HorizontalAlignment.Center;
+                    TextView.SelectionAlignment = HorizontalAlignment.Center;
                     break;
                 case "RIGHT":
-                    richTextBox1.SelectionAlignment = HorizontalAlignment.Right;
+                    TextView.SelectionAlignment = HorizontalAlignment.Right;
                     break;
                 case "LEFT":
-                    richTextBox1.SelectionAlignment = HorizontalAlignment.Left;
+                    TextView.SelectionAlignment = HorizontalAlignment.Left;
                     break;
                 case "A":
-                    richTextBox1.SelectAll();
+                    TextView.SelectAll();
                     break;
                 case "C":
-                    richTextBox1.Copy();
+                    TextView.Copy();
                     break;
                 case "V":
-                    richTextBox1.Paste();
+                    TextView.Paste();
                     break;
                 case "X":
-                    richTextBox1.Cut();
+                    TextView.Cut();
                     break;
                 case "Z":
-                    richTextBox1.Undo();
+                    TextView.Undo();
                     break;
                 case "Y":
-                    richTextBox1.Redo();
+                    TextView.Redo();
                     break;
                 case "P":
                     SelectCurrentLine();
-                    if (richTextBox1.SelectionProtected)
+                    if (TextView.SelectionProtected)
                     {
-                        richTextBox1.SelectionColor = Color.FromArgb(
-                            (richTextBox1.SelectionColor.R + 70 > 255) ? 255 : richTextBox1.SelectionColor.R + 70,
-                            (richTextBox1.SelectionColor.G + 70 > 255) ? 255 : richTextBox1.SelectionColor.G + 70,
-                            (richTextBox1.SelectionColor.B + 70 > 255) ? 255 : richTextBox1.SelectionColor.B + 70
+                        TextView.SelectionColor = Color.FromArgb(
+                            (TextView.SelectionColor.R + 70 > 255) ? 255 : TextView.SelectionColor.R + 70,
+                            (TextView.SelectionColor.G + 70 > 255) ? 255 : TextView.SelectionColor.G + 70,
+                            (TextView.SelectionColor.B + 70 > 255) ? 255 : TextView.SelectionColor.B + 70
                             );
 
-                        richTextBox1.SelectionProtected = false;
+                        TextView.SelectionProtected = false;
                     }
                     else
                     {
-                        richTextBox1.SelectionColor = Color.FromArgb(
-                            (richTextBox1.SelectionColor.R - 70 < 0)?0: richTextBox1.SelectionColor.R - 70,
-                            (richTextBox1.SelectionColor.G - 70 < 0) ? 0 : richTextBox1.SelectionColor.G - 70,
-                            (richTextBox1.SelectionColor.B - 70 < 0) ? 0 : richTextBox1.SelectionColor.B - 70
+                        TextView.SelectionColor = Color.FromArgb(
+                            (TextView.SelectionColor.R - 70 < 0)?0: TextView.SelectionColor.R - 70,
+                            (TextView.SelectionColor.G - 70 < 0) ? 0 : TextView.SelectionColor.G - 70,
+                            (TextView.SelectionColor.B - 70 < 0) ? 0 : TextView.SelectionColor.B - 70
                             );
 
-                        richTextBox1.SelectionProtected = true;
+                        TextView.SelectionProtected = true;
                     }
-                    richTextBox1.DeselectAll();
+                    TextView.DeselectAll();
                     break;
                 case "R":
                     SelectCurrentLine();
                     ColorDialog CD = new ColorDialog();
                     if (CD.ShowDialog() == DialogResult.OK)
-                        richTextBox1.SelectionColor = CD.Color;
-                    richTextBox1.DeselectAll();
+                        TextView.SelectionColor = CD.Color;
+                    TextView.DeselectAll();
                     break;
                 case "S":
                     save(true);
@@ -326,9 +323,9 @@ namespace DeskNotes
                     if (MessageBox.Show("Do you want to create a new file?","New File", MessageBoxButtons.YesNo,MessageBoxIcon.Question) == DialogResult.Yes)
                     {
                         CurrentFile = "";
-                        richTextBox1.Clear();
-                        richTextBox1.ForeColor = txt_color.ForeColor;
-                        richTextBox1.BackColor = bg_color.BackColor;
+                        TextView.Clear();
+                        TextView.ForeColor = txt_color.ForeColor;
+                        TextView.BackColor = bg_color.BackColor;
                     }
                     break;
                 case "O":
@@ -338,13 +335,13 @@ namespace DeskNotes
                     {
                         try
                         {
-                            richTextBox1.LoadFile(OFD.FileName);
+                            TextView.LoadFile(OFD.FileName);
                         }
                         catch
                         {
                             try
                             {
-                                richTextBox1.Text = System.IO.File.ReadAllText(OFD.FileName);
+                                TextView.Text = System.IO.File.ReadAllText(OFD.FileName);
                             }
                             catch { }
                         }
@@ -357,10 +354,10 @@ namespace DeskNotes
                 case "Q":
                     if (MessageBox.Show("Do you want to delete all?", "Delete All", MessageBoxButtons.YesNo,MessageBoxIcon.Warning) == DialogResult.Yes)
                     {
-                        richTextBox1.SelectionProtected = false;
-                        richTextBox1.Clear();
-                        richTextBox1.ForeColor = txt_color.ForeColor;
-                        richTextBox1.BackColor = bg_color.BackColor;
+                        TextView.SelectionProtected = false;
+                        TextView.Clear();
+                        TextView.ForeColor = txt_color.ForeColor;
+                        TextView.BackColor = bg_color.BackColor;
                     }
                     break;
                 case "D":
@@ -374,28 +371,27 @@ namespace DeskNotes
         private void DuplicateLine()
         {
             SelectCurrentLine();
-            richTextBox1.SelectedText = richTextBox1.SelectedText + "\n" + richTextBox1.SelectedText;
-            richTextBox1.DeselectAll();
+            TextView.SelectedText = TextView.SelectedText + "\n" + TextView.SelectedText;
+            TextView.DeselectAll();
         }
         private void SelectCurrentLine()
         {
-            if (richTextBox1.SelectedText == "")
+            if (TextView.SelectedText == "")
             {
                 try
                 {
-                    int firstcharindex = richTextBox1.GetFirstCharIndexOfCurrentLine();
-                    int currentline = richTextBox1.GetLineFromCharIndex(firstcharindex);
-                    string currentlinetext = richTextBox1.Lines[currentline];
-                    richTextBox1.Select(firstcharindex, currentlinetext.Length);
+                    int firstcharindex = TextView.GetFirstCharIndexOfCurrentLine();
+                    int currentline = TextView.GetLineFromCharIndex(firstcharindex);
+                    string currentlinetext = TextView.Lines[currentline];
+                    TextView.Select(firstcharindex, currentlinetext.Length);
                 }
                 catch { }
             }
         }
         private void CheckBox1_CheckedChanged(object sender, EventArgs e)
         {
-            topMost(checkBox1.Checked);
+            topMost(TopMostOption.Checked);
         }
-
         private void topMost(bool check)
         {
             if (check)
@@ -422,10 +418,10 @@ namespace DeskNotes
                     {
                         int funcIndex = -1;
                         bool FoundChanges = false;
-                        FoundChanges = ((funcIndex = Functions.FunctionFound(Tools.GetControlProperty(richTextBox1, "Text").ToString())) != -1);
+                        FoundChanges = ((funcIndex = Functions.FunctionFound(Tools.GetControlProperty(TextView, "Text").ToString())) != -1);
                         if (FoundChanges && funcIndex != -1)
                         {
-                            Control tmprtb = richTextBox1;
+                            Control tmprtb = TextView;
                             try
                             {
                                 Functions.CheckAndExecute(ref tmprtb, funcIndex);
@@ -433,15 +429,15 @@ namespace DeskNotes
                             catch { }
                         }
 
-                        Thread.Sleep(500);
+                        Thread.Sleep(1000);
                     } while (Thread.CurrentThread.ThreadState != ThreadState.Aborted && Thread.CurrentThread.ThreadState != ThreadState.AbortRequested);
                 }
                 else
                 {
                     int i;
-                    if ((i = Functions.FunctionFound(richTextBox1.Text)) != -1)
+                    if ((i = Functions.FunctionFound(TextView.Text)) != -1)
                     {
-                        Control tmprtb = richTextBox1;
+                        Control tmprtb = TextView;
                         Functions.CheckAndExecute(ref tmprtb, i);
                     }
                 }
@@ -475,12 +471,10 @@ namespace DeskNotes
             Properties.Settings.Default.auto_execution = autoExecution.Checked;
             Properties.Settings.Default.Save();
         }
-
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
             AutoFunctionExecution.Abort();
         }
-
         private void CommandSymbolInput_TextChanged(object sender, EventArgs e)
         {
             if (CommandSymbolInput.Text.Length > 1)
