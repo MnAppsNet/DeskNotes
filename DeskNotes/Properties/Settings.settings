@@ -20,5 +20,8 @@
     <Setting Name="command_symbol" Type="System.String" Scope="User">
       <Value Profile="(Default)">$</Value>
     </Setting>
+    <Setting Name="top_most" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

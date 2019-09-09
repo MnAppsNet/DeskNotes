@@ -11,18 +11,22 @@ namespace DeskNotes
 {
     public partial class Form1 : Form
     {
-        Arrow arrow;
+        #region ----- Variables -----
+        private Arrow arrow;
         private Size defaultArrowSize;
         private Size smallArrowSize = new Size(20, 20);
         private Point defaultArrowLocation;
         private string CurrentFile = "";
+        #endregion ------------------
 
-        public Form1()
-        {
+        public Form1() //Constructor
+        { 
             InitializeComponent();
             this.Hide();
             this.SendToBack();
         }
+
+        #region ----- Public Methods -----
         public void Show_Panel()
         {
             this.Width = (Properties.Settings.Default.width == 0) ? (200) : (Properties.Settings.Default.width);
@@ -63,6 +67,9 @@ namespace DeskNotes
                 TextView.SaveFile(CurrentFile);
             }
         }
+        #endregion ---------------------------
+
+        #region ----- Private methods -----
         private void load()
         {
             if (System.IO.File.Exists(Properties.Settings.Default.last_opened_file))
@@ -86,6 +93,8 @@ namespace DeskNotes
             load();
             autoExecution.Checked = Properties.Settings.Default.auto_execution;
             CommandSymbolInput.Text = Properties.Settings.Default.command_symbol;
+            TopMostOption.Checked = Properties.Settings.Default.top_most;
+            topMost(TopMostOption.Checked);
             Functions.CommandSymbol = CommandSymbolInput.Text;
             if (Properties.Settings.Default.auto_execution)
             {
@@ -406,6 +415,8 @@ namespace DeskNotes
                 arrow.SendToBack();
             }
             arrow.TopMost = check;
+            Properties.Settings.Default.top_most = TopMostOption.Checked;
+            Properties.Settings.Default.Save();
         }
 
         private void CheckForFunctions()
@@ -488,5 +499,6 @@ namespace DeskNotes
                 Functions.CommandSymbol = CommandSymbolInput.Text;
             }
         }
+        #endregion ---------------------------------
     }
 }

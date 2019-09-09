@@ -8,3 +8,12 @@ C:\Users\ekalyvas\Source\Repos\MnAppsNet\DeskNotes\DeskNotes\bin\Debug\DeskNotes
 C:\Users\ekalyvas\Source\Repos\MnAppsNet\DeskNotes\DeskNotes\bin\Debug\DeskNotes.pdb
 C:\Users\ekalyvas\Source\Repos\MnAppsNet\DeskNotes\DeskNotes\obj\Debug\DeskNotes.exe
 C:\Users\ekalyvas\Source\Repos\MnAppsNet\DeskNotes\DeskNotes\obj\Debug\DeskNotes.pdb
+C:\Users\Manolis\Source\Repos\MnAppsNet\DeskNotes\DeskNotes\bin\Debug\DeskNotes.exe.config
+C:\Users\Manolis\Source\Repos\MnAppsNet\DeskNotes\DeskNotes\bin\Debug\DeskNotes.exe
+C:\Users\Manolis\Source\Repos\MnAppsNet\DeskNotes\DeskNotes\bin\Debug\DeskNotes.pdb
+C:\Users\Manolis\Source\Repos\MnAppsNet\DeskNotes\DeskNotes\obj\Debug\DeskNotes.Arrow.resources
+C:\Users\Manolis\Source\Repos\MnAppsNet\DeskNotes\DeskNotes\obj\Debug\DeskNotes.Form1.resources
+C:\Users\Manolis\Source\Repos\MnAppsNet\DeskNotes\DeskNotes\obj\Debug\DeskNotes.Properties.Resources.resources
+C:\Users\Manolis\Source\Repos\MnAppsNet\DeskNotes\DeskNotes\obj\Debug\DeskNotes.csproj.GenerateResource.Cache
+C:\Users\Manolis\Source\Repos\MnAppsNet\DeskNotes\DeskNotes\obj\Debug\DeskNotes.exe
+C:\Users\Manolis\Source\Repos\MnAppsNet\DeskNotes\DeskNotes\obj\Debug\DeskNotes.pdb
