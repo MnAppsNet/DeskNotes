@@ -19,5 +19,5 @@ you can see below the list of all available commands as for now.
 * Get Full Date                   : \<SM\>date;
 * Get Time                        : \<SM\>time;  
 * Style text                      : \<SM\>/ST TEXT /ST; where ST={b,i,u,s,p} with b = bold, i = italic, u = underline, s = strike out, p = protected text
-  
+* Open process                    : \<SM\>P:PROCESS; where PROCESS is a process name, new process name will be created if not found  
  *\<SM\> is special command symbol that can be set on the program*
