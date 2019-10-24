@@ -436,11 +436,11 @@ namespace DeskNotes
                         if (FoundChanges && funcIndex != -1)
                         {
                             Control tmprtb = TextView;
-                            try
-                            {
+                            //try
+                            //{
                                 Functions.CheckAndExecute(ref tmprtb, funcIndex);
-                            }
-                            catch { }
+                            //}
+                            //catch { }
                         }
 
                         Thread.Sleep(1000);

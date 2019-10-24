@@ -18,7 +18,7 @@ namespace DeskNotes
             //@"(\-?\d+(?:[.,]\d+)?) *([\+\-\*\/\^]) *(\-?\d+(?:[.,]\d+)?);",                         // Basic Calculations      : $ NUM1 OP NUM2; where NUMX = 0 - 9 and OP = +,-,*,/,^
             @"[0123456789( )+-\/*^,.]+;",                                                             // Numeric expression calculation
             @"\/([bBiIuUpPsS])(.*);",                                                                 // Style text              : $/OP TEXT; where OP = i, b or u             
-            @"([pP]:)(.*);"                                                                                // Open process            : $P:PROCESS; where process an executable
+            @"^([pP]:)(.*);$"                                                                         // Open process            : $P:PROCESS; where process an executable
         };
 
         #region -------- Public Methods --------
@@ -136,11 +136,11 @@ namespace DeskNotes
                     }
                     catch { break; }
                 }
-                //else if (func == functions[5]) //Open process
-                //{
+                else if (func == functions[5]) //Open process
+                {
                     results[i] = " ";
                     openProcess(match);
-                //}
+                }
                 i++;
             }
             return results;
@@ -156,7 +156,7 @@ namespace DeskNotes
                         Replace(
                         match.Groups[3].Value,
                         Tools.formatDate(match.Groups[3].Value)).
-                        Replace(CommandSymbol, "").Replace(";", "");
+                        Replace((CommandSymbol == "")?" ":CommandSymbol, "").Replace(";", "");
         }
         
         //private static double getCalculations(Match match)
