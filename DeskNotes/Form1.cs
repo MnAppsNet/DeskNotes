@@ -20,7 +20,7 @@ namespace DeskNotes
         #endregion ------------------
 
         public Form1() //Constructor
-        { 
+        {
             InitializeComponent();
             this.Hide();
             this.SendToBack();
@@ -62,11 +62,13 @@ namespace DeskNotes
                     Properties.Settings.Default.last_opened_file = CurrentFile;
                     Properties.Settings.Default.Save();
                 }
-            }else if (CurrentFile != "")
+            }
+            else if (CurrentFile != "")
             {
                 TextView.SaveFile(CurrentFile);
             }
         }
+        
         #endregion ---------------------------
 
         #region ----- Private methods -----
@@ -101,6 +103,7 @@ namespace DeskNotes
                 try
                 {
                     AutoFunctionExecution = new Thread(() => CheckForFunctions());
+                    AutoFunctionExecution.SetApartmentState(ApartmentState.STA);
                     AutoFunctionExecution.Name = "FunctionCheck";
                     AutoFunctionExecution.Start();
                 }
@@ -309,7 +312,7 @@ namespace DeskNotes
                     else
                     {
                         TextView.SelectionColor = Color.FromArgb(
-                            (TextView.SelectionColor.R - 70 < 0)?0: TextView.SelectionColor.R - 70,
+                            (TextView.SelectionColor.R - 70 < 0) ? 0 : TextView.SelectionColor.R - 70,
                             (TextView.SelectionColor.G - 70 < 0) ? 0 : TextView.SelectionColor.G - 70,
                             (TextView.SelectionColor.B - 70 < 0) ? 0 : TextView.SelectionColor.B - 70
                             );
@@ -329,7 +332,7 @@ namespace DeskNotes
                     save(true);
                     break;
                 case "N":
-                    if (MessageBox.Show("Do you want to create a new file?","New File", MessageBoxButtons.YesNo,MessageBoxIcon.Question) == DialogResult.Yes)
+                    if (MessageBox.Show("Do you want to create a new file?", "New File", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                     {
                         CurrentFile = "";
                         TextView.Clear();
@@ -357,11 +360,11 @@ namespace DeskNotes
                         CurrentFile = OFD.FileName;
                         Properties.Settings.Default.last_opened_file = CurrentFile;
                         Properties.Settings.Default.Save();
-                        
+
                     }
                     break;
                 case "Q":
-                    if (MessageBox.Show("Do you want to delete all?", "Delete All", MessageBoxButtons.YesNo,MessageBoxIcon.Warning) == DialogResult.Yes)
+                    if (MessageBox.Show("Do you want to delete all?", "Delete All", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
                     {
                         TextView.SelectionProtected = false;
                         TextView.Clear();
@@ -452,10 +455,11 @@ namespace DeskNotes
                         Functions.CheckAndExecute(ref tmprtb, i);
                     }
                 }
-            }catch(Exception error)
+            }
+            catch (Exception error)
             {
                 if (Thread.CurrentThread.ThreadState != ThreadState.Aborted && Thread.CurrentThread.ThreadState != ThreadState.AbortRequested)
-                 MessageBox.Show(error.Message, "Error Occured", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(error.Message, "Error Occured", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         Thread AutoFunctionExecution;
@@ -500,5 +504,6 @@ namespace DeskNotes
             }
         }
         #endregion ---------------------------------
+
     }
 }

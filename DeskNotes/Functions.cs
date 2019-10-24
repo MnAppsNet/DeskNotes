@@ -15,9 +15,10 @@ namespace DeskNotes
             @"(D{2}|M{2}|Y{2}|Y{4})[,.|\\\/:](D{2}|M{2}|Y{2}|Y{4})[,.|\\\/:](D{2}|M{2}|Y{2}|Y{4});",  // Date in DD/MM/YY format : $DD.MM.YY; or $MM.DD.YY; and any combination between
             @"[Dd][Aa][Tt][Ee];",                                                                     // Full date               : $date;
             @"[Tt][Ii][Mm][Ee];",                                                                     // Full time               : $time;
-            //@"(\-?\d+(?:[.,]\d+)?) *([\+\-\*\/\^]) *(\-?\d+(?:[.,]\d+)?);",                           // Basic Calculations      : $ NUM1 OP NUM2; where NUMX = 0 - 9 and OP = +,-,*,/,^
-            @"[0123456789( )+-\/*^,.]+;",                                                              // Numeric expression calculation
-            @"\/([bBiIuUpPsS])(.*);"                                                                  // Style text              : $/OP TEXT; where OP = i, b or u             
+            //@"(\-?\d+(?:[.,]\d+)?) *([\+\-\*\/\^]) *(\-?\d+(?:[.,]\d+)?);",                         // Basic Calculations      : $ NUM1 OP NUM2; where NUMX = 0 - 9 and OP = +,-,*,/,^
+            @"[0123456789( )+-\/*^,.]+;",                                                             // Numeric expression calculation
+            @"\/([bBiIuUpPsS])(.*);",                                                                 // Style text              : $/OP TEXT; where OP = i, b or u             
+            @"([pP]:)(.*);"                                                                                // Open process            : $P:PROCESS; where process an executable
         };
 
         #region -------- Public Methods --------
@@ -104,7 +105,7 @@ namespace DeskNotes
                 //    double result = getCalculations(match);
                 //    results[i] = result.ToString();
                 //}
-                else if (func == functions[3])
+                else if (func == functions[3]) //Numeric expresion
                 {
                     string Match = match.Value;
                     if (Match.StartsWith(CommandSymbol) && CommandSymbol != "") Match = Match.Substring(1, Match.Length - 1);
@@ -126,15 +127,20 @@ namespace DeskNotes
                     }
                     else results[i] = null;
                 }
-                else if (func == functions[4])
+                else if (func == functions[4]) //Stylize Text
                 {
-                    results = null;
+                    results[i] = null;
                     try
                     {
                         stylizeText(match, text);
                     }
                     catch { break; }
                 }
+                //else if (func == functions[5]) //Open process
+                //{
+                    results[i] = " ";
+                    openProcess(match);
+                //}
                 i++;
             }
             return results;
@@ -207,6 +213,49 @@ namespace DeskNotes
                 Tools.SetControlProperty(text, "SelectionProtected", true);
             }
 
+        }
+
+        private static void openProcess(Match match)
+        {
+            if (match.Groups[2].Value.Contains("?"))
+            {
+                MessageBox.Show("Process name can not contain ?");
+                return;
+            }
+
+            string processName = match.Groups[2].Value;
+            string process;
+            bool found = false;
+            System.Collections.Specialized.StringCollection stringCollection = Properties.Settings.Default.processes;
+            int i = 0;
+            foreach (string s in stringCollection)
+            {
+                if (s.StartsWith(processName.Replace(" ", "").Trim().ToLower() + "?"))
+                {
+                    process = stringCollection[i];
+                    System.Diagnostics.Process.Start(process.Split('?').GetValue(1).ToString());
+                    found = true;
+                    break;
+                }
+                i++;
+            }
+            if (!found)
+                AddToProcessList(match, processName, stringCollection);
+        }
+        public static void AddToProcessList(System.Text.RegularExpressions.Match match, string processName, System.Collections.Specialized.StringCollection stringCollection)
+        {
+            MessageBox.Show("Select a process to start");
+            string process;
+            OpenFileDialog OFD = new OpenFileDialog();
+            OFD.Title = "Choose a process to start";
+            if (OFD.ShowDialog() == DialogResult.OK)
+            {
+                process = OFD.FileName;
+                stringCollection.Add(processName + "?" + process);
+                Properties.Settings.Default.processes = stringCollection;
+                Properties.Settings.Default.Save();
+                MessageBox.Show("Process name has been saved!");
+            }
         }
         #endregion ---------------------------------------
 

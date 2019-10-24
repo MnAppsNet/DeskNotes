@@ -12,7 +12,7 @@ namespace DeskNotes.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.1.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.2.0.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -104,6 +104,25 @@ namespace DeskNotes.Properties {
             }
             set {
                 this["top_most"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
+<ArrayOfString xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
+  <string>iexplorer?C:\Program Files\internet explorer\iexplore.exe</string>
+  <string>explorer?C:\Windows\explorer.exe</string>
+  <string>calc?C:\Windows\System32\calc.exe</string>
+  <string>notepad?C:\Windows\Notepad.exe</string>
+  <string>cmd?C:\windows\system32\cmd.exe</string>
+</ArrayOfString>")]
+        public global::System.Collections.Specialized.StringCollection processes {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["processes"]));
+            }
+            set {
+                this["processes"] = value;
             }
         }
     }
