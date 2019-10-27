@@ -18,7 +18,7 @@ namespace DeskNotes
             //@"(\-?\d+(?:[.,]\d+)?) *([\+\-\*\/\^]) *(\-?\d+(?:[.,]\d+)?);",                         // Basic Calculations      : $ NUM1 OP NUM2; where NUMX = 0 - 9 and OP = +,-,*,/,^
             @"[0123456789( )+-\/*^,.]+;",                                                             // Numeric expression calculation
             @"\/([bBiIuUpPsS])(.*);",                                                                 // Style text              : $/OP TEXT; where OP = i, b or u             
-            @"^([pP]:)(.*);$"                                                                         // Open process            : $P:PROCESS; where process an executable
+            @"([pP]:)(.*);"                                                                           // Open process            : $P:PROCESS; where process an executable
         };
 
         #region -------- Public Methods --------
@@ -38,7 +38,7 @@ namespace DeskNotes
             for (int i = StartingFunctionIndex; i < functions.Length; i++) //'StartingFunctionIndex' index
             {
                 if (CommandSymbol == " ") CommandSymbol = "";
-                s = Regex.Escape(CommandSymbol) + @" *" + functions[i];
+                s = Regex.Escape(CommandSymbol) + functions[i];
                 MatchCollection matches = null;
 
                 matches = Tools.GetRegexMatches(s, Tools.GetControlProperty(text, "Text").ToString());
@@ -64,18 +64,15 @@ namespace DeskNotes
             string s;
             for (int i = 0; i < functions.Length; i++)
             {
-                try
+                if (CommandSymbol == null) CommandSymbol = "";
+                if (CommandSymbol.Contains('\r') || CommandSymbol == " " || CommandSymbol.Contains('\n')) CommandSymbol = "";
+                s = Regex.Escape(CommandSymbol) + functions[i];
+                MatchCollection matches = Tools.GetRegexMatches(s, text);
+                if (matches.Count > 0)
                 {
-                    if (CommandSymbol == " ") CommandSymbol = "";
-                    s = Regex.Escape(CommandSymbol) + @" *" + functions[i];
-                    MatchCollection matches = Tools.GetRegexMatches(s, text);
-                    if (matches.Count > 0)
-                    {
-                        found = i;
-                        break;
-                    }
+                    found = i;
+                    break;
                 }
-                catch { }
             }
             return found;
         }
@@ -138,7 +135,7 @@ namespace DeskNotes
                 }
                 else if (func == functions[5]) //Open process
                 {
-                    results[i] = " ";
+                    results[i] = "";
                     openProcess(match);
                 }
                 i++;
