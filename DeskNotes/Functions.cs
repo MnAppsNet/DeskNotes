@@ -18,7 +18,9 @@ namespace DeskNotes
             //@"(\-?\d+(?:[.,]\d+)?) *([\+\-\*\/\^]) *(\-?\d+(?:[.,]\d+)?);",                         // Basic Calculations      : $ NUM1 OP NUM2; where NUMX = 0 - 9 and OP = +,-,*,/,^
             @"[0123456789( )+-\/*^,.]+;",                                                             // Numeric expression calculation
             @"\/([bBiIuUpPsS])(.*);",                                                                 // Style text              : $/OP TEXT; where OP = i, b or u             
-            @"([pP]:)(.*);"                                                                           // Open process            : $P:PROCESS; where process an executable
+            @"([pP]:)(.*);",                                                                          // Open process            : $P:PROCESS; where process an executable, to delete an process entry use : $P:PROCESS.d; 
+            @"([sS]:)(.*);"                                                                           // Search on the internet  : $S:SEARCH_STRING;
+
         };
 
         #region -------- Public Methods --------
@@ -138,6 +140,11 @@ namespace DeskNotes
                     results[i] = "";
                     openProcess(match);
                 }
+                else if (func == functions[6]) //Search string
+                {
+                    results[i] = "";
+                    searchString(match);
+                }
                 i++;
             }
             return results;
@@ -211,12 +218,24 @@ namespace DeskNotes
             }
 
         }
-
+        private static void searchString(Match match)
+        {
+            System.Diagnostics.Process.Start("https://www.google.com/search?q=" + match.Groups[2].Value);
+        }
         private static void openProcess(Match match)
         {
             if (match.Groups[2].Value.Contains("?"))
             {
                 MessageBox.Show("Process name can not contain ?");
+                return;
+            }
+
+            if (match.Groups[0].Value.ToLower().EndsWith(".d;"))
+            {
+                if (MessageBox.Show("Do you want to remove this entry from the processes list?", "Remove Entry", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    RemoveFromProcessList(match.Groups[0].Value.Replace(".d;", "").Replace(".D;", "").Replace(CommandSymbol, "").Replace("p:", "").Replace("P:", ""));
+                }
                 return;
             }
 
@@ -253,6 +272,27 @@ namespace DeskNotes
                 Properties.Settings.Default.Save();
                 MessageBox.Show("Process name has been saved!");
             }
+        }
+        public static void RemoveFromProcessList(string value)
+        {
+            System.Collections.Specialized.StringCollection stringCollection = Properties.Settings.Default.processes;
+            int index = -1;
+            bool found = false;
+            foreach (string s in stringCollection)
+            {
+                index++;
+                if (s.StartsWith(value))
+                {
+                    found = true;
+                    break;
+                }
+            }
+            if (found)
+            {
+                stringCollection.RemoveAt(index);
+            }
+            Properties.Settings.Default.processes = stringCollection;
+            Properties.Settings.Default.Save();
         }
         #endregion ---------------------------------------
 
