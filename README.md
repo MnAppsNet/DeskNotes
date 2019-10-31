@@ -19,5 +19,9 @@ you can see below the list of all available commands as for now.
 * Get Full Date                   : \<SM\>date;
 * Get Time                        : \<SM\>time;  
 * Style text                      : \<SM\>/ST TEXT /ST; where ST={b,i,u,s,p} with b = bold, i = italic, u = underline, s = strike out, p = protected text
-* Open process                    : \<SM\>P:PROCESS; where PROCESS is a process name, new process name will be created if not found  
+* Open process                    : \<SM\>P:PROCESS; where PROCESS is a process name
+  Using this command you can create new process names and link them with an executable. If no executable is linked to a process
+  name you entered the program askes you to link one. To delete link add .d at the end of a command like so : \<SM\>P:PROCESS.d;
+* Search the internet			  : \<SM\>S:SEARCH_STRING; where SEARCH_STRING is a string you will use as a search term on google
+
  *\<SM\> is special command symbol that can be set on the program*
