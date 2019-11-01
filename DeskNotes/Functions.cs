@@ -234,7 +234,12 @@ namespace DeskNotes
             {
                 if (MessageBox.Show("Do you want to remove this entry from the processes list?", "Remove Entry", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
-                    RemoveFromProcessList(match.Groups[0].Value.Replace(".d;", "").Replace(".D;", "").Replace(CommandSymbol, "").Replace("p:", "").Replace("P:", ""));
+                    string value;
+                    if (CommandSymbol != "")
+                        value= match.Groups[0].Value.Replace(".d;", "").Replace(".D;", "").Replace("p:", "").Replace("P:", "").Replace(CommandSymbol, "");
+                    else
+                        value = match.Groups[0].Value.Replace(".d;", "").Replace(".D;", "").Replace("p:", "").Replace("P:", "");
+                    RemoveFromProcessList(value);
                 }
                 return;
             }
@@ -249,7 +254,10 @@ namespace DeskNotes
                 if (s.StartsWith(processName.Replace(" ", "").Trim().ToLower() + "?"))
                 {
                     process = stringCollection[i];
-                    System.Diagnostics.Process.Start(process.Split('?').GetValue(1).ToString());
+                    System.Diagnostics.Process P = new System.Diagnostics.Process(); 
+                    P.StartInfo.FileName = process.Split('?').GetValue(1).ToString();
+                    P.StartInfo.WorkingDirectory = System.IO.Path.GetDirectoryName(P.StartInfo.FileName);
+                    P.Start();
                     found = true;
                     break;
                 }
