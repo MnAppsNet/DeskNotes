@@ -9,6 +9,8 @@ It is a note area with commands for quick and easy note taking.
 * Right click on the arrow when it is pointing left to restart the program
 * Left click on the arrow when it is pointing left to show the note area
 * Middle click on the arrow when it is pointing right to close the program
+* Use shortcuts _Left_Control_ + _Left_Shift_ + _A_ OR _D_ to open and close the panel (A : Open, D : Close)
+  you can change the shortcut buttons from from the Variables Region of Main.cs
 
 # Commands : 
 Commands are text commands you can type to get some results quickly on your notes,

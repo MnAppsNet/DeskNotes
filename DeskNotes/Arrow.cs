@@ -11,8 +11,8 @@ namespace DeskNotes
     public partial class Arrow : Form
     {
         private int Spacing = 5;
-        private Form1 main_form;
-        public Arrow(Form1 Main_Form)
+        private Main main_form;
+        public Arrow(Main Main_Form)
         {
             InitializeComponent();
             main_form = Main_Form;
@@ -54,17 +54,25 @@ namespace DeskNotes
                 }
                 main_form.Show_Panel();
             }
-            ChangeArrow();
+            //ChangeArrow();
             main_form.save(false);
         }
-        private void ChangeArrow()
+        public void ChangeArrow( string direction = "")
         {
+            if (direction == ">" || direction == "<")
+            {
+                _arrow.Image = ((direction == "<")?Properties.Resources.left:Properties.Resources.right);
+                _arrow.Tag = direction;
+                return;
+            }
+
+
             if (_arrow.Tag.ToString() == ">")
             {
                 _arrow.Image = Properties.Resources.left;
                 _arrow.Tag = "<";
             }
-            else
+            else if (_arrow.Tag.ToString() == "<")
             {
                 _arrow.Image = Properties.Resources.right;
                 _arrow.Tag = ">";
