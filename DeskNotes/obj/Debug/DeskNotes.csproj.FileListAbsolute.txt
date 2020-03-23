@@ -13,7 +13,7 @@ C:\Users\ekalyvas\Source\Repos\MnAppsNet\DeskNotes\DeskNotes\bin\Debug\DeskNotes
 C:\Users\ekalyvas\Source\Repos\MnAppsNet\DeskNotes\DeskNotes\obj\Debug\DeskNotes.Arrow.resources
 C:\Users\ekalyvas\Source\Repos\MnAppsNet\DeskNotes\DeskNotes\obj\Debug\DeskNotes.Properties.Resources.resources
 C:\Users\ekalyvas\Source\Repos\MnAppsNet\DeskNotes\DeskNotes\obj\Debug\DeskNotes.csproj.GenerateResource.cache
-C:\Users\ekalyvas\Source\Repos\MnAppsNet\DeskNotes\DeskNotes\obj\Debug\DeskNotes.csproj.CoreCompileInputs.cache
 C:\Users\ekalyvas\Source\Repos\MnAppsNet\DeskNotes\DeskNotes\obj\Debug\DeskNotes.exe
 C:\Users\ekalyvas\Source\Repos\MnAppsNet\DeskNotes\DeskNotes\obj\Debug\DeskNotes.pdb
 C:\Users\ekalyvas\Source\Repos\MnAppsNet\DeskNotes\DeskNotes\obj\Debug\DeskNotes.Main.resources
+C:\Users\ekalyvas\Source\Repos\MnAppsNet\DeskNotes\DeskNotes\obj\Debug\DeskNotes.document.resources

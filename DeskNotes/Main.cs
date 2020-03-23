@@ -12,11 +12,13 @@ namespace DeskNotes
     public partial class Main : Form
     {
         #region ----- Variables -----
+        private List<document> docs;
         private Arrow arrow;
         private Size defaultArrowSize;
         private Size smallArrowSize = new Size(20, 20);
         private Point defaultArrowLocation;
         private string CurrentFile = "";
+        private int sideDocSpacing = 2;
         KeyboardHook Hook;
         //Variables to open and close the panel :
         KeyboardHook.VKeys[] showShortcut = { KeyboardHook.VKeys.LCONTROL, KeyboardHook.VKeys.LSHIFT, KeyboardHook.VKeys.KEY_A }; //The length of show and hide shortcuts should be the same
@@ -40,6 +42,7 @@ namespace DeskNotes
             this.TopMost = true;
             arrow.TopMost = true;
             arrow.ChangeArrow(">");
+            showSideDocuments();
         }
         public void Hide_Panel()
         {
@@ -53,6 +56,7 @@ namespace DeskNotes
             this.SendToBack();
             arrow.SendToBack();
             arrow.ChangeArrow("<");
+            hideSideDocuments();
         }
         public void save(bool AskForFile)
         {
@@ -74,18 +78,96 @@ namespace DeskNotes
                 TextView.SaveFile(CurrentFile);
             }
         }
-        
-        #endregion ---------------------------
-
-        #region ----- Private methods -----
-        private void load()
-        {
+        public void load()
+        {//load last opened file
             if (System.IO.File.Exists(Properties.Settings.Default.last_opened_file))
             {
-                TextView.LoadFile(Properties.Settings.Default.last_opened_file);
+                try
+                {
+                    TextView.LoadFile(Properties.Settings.Default.last_opened_file);
+                }
+                catch {
+                    TextView.Text = System.IO.File.ReadAllText(Properties.Settings.Default.last_opened_file);
+                }
                 CurrentFile = Properties.Settings.Default.last_opened_file;
             }
             TextView.Update();
+        }
+        public void LoadSideDocuments()
+        { //Load side documents on the left of the panel when it is open
+
+            int yPossition; //Possition of icon on the side of the panel
+            int i = 2;      //Integer used for location of side icons
+            int ind = 0;    //Integer used for id of side icons
+
+            if (docs == null)
+            {
+                docs = new List<document>();
+            }
+            else
+            {
+                foreach (document d in docs)
+                {
+                    d.Close();
+                    d.Dispose();
+                }
+                docs = new List<document>();
+            }
+            //Pluss Icon :
+            document doc = new document(this, -1, "");
+            doc.Show();
+            yPossition = arrow.Location.Y - doc.Height - sideDocSpacing;
+            if (Properties.Settings.Default.plusPossition != -1)
+                yPossition = Properties.Settings.Default.plusPossition;
+            doc.Size = new Size(arrow.Size.Width / 2, arrow.Size.Height / 2);
+            doc.Location = new Point(arrow.Location.X + doc.Width, yPossition);
+            doc.Tag = doc.Location.Y;
+
+            docs.Add(doc);
+
+            //Documents :
+            foreach( string s in Properties.Settings.Default.documents)
+            {
+                if (!s.Contains("?")) { ind++; continue; }
+
+                document doc_new = new document(this, ind, s);
+                doc_new.Show();
+                doc_new.Size = new Size(arrow.Size.Width / 2, arrow.Size.Height / 2);
+                yPossition = arrow.Location.Y - i * (doc_new.Height + sideDocSpacing);
+                if (s.Split('?').Length >= 3) { 
+                    if (s.Split('?').GetValue(2).ToString() != "")
+                    {
+                        int.TryParse(s.Split('?').GetValue(2).ToString(), out yPossition);
+                    }
+                }
+                doc_new.Tag = yPossition;
+                doc_new.Location = new Point(arrow.Location.X + doc_new.Width, yPossition);
+                docs.Add(doc_new);
+                i++; ind++;
+            }
+        }
+        #endregion ---------------------------
+
+        #region ----- Private methods -----
+        private void hideSideDocuments()
+        { //hide side documents on the left of the panel when it is open
+            if (docs == null) return;
+            foreach (document d in docs)
+            {
+                d.Hide();
+            }
+        }
+        private void showSideDocuments()
+        { //show side documents on the left of the panel when it is open
+            if (docs == null) return;
+            int i = 1;
+            foreach (document d in docs)
+            {
+                d.Show();
+                d.Size = new Size(arrow.Size.Width / 2, arrow.Size.Height / 2);
+                d.Location = new Point(arrow.Location.X + d.Width, d.Location.Y);
+                i++;
+            }
         }
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -93,6 +175,7 @@ namespace DeskNotes
             this.Location = new Point(Screen.PrimaryScreen.Bounds.Right - this.Width, Screen.PrimaryScreen.Bounds.Top);
             arrow = new Arrow(this);
             arrow.Show();
+            LoadSideDocuments();
             Hide_Panel();
             ChangeColors(null, null);
             defaultArrowSize = arrow._arrow.Size;
@@ -134,7 +217,6 @@ namespace DeskNotes
             Hook.KeyDown += KeyDownHook;
             Hook.KeyUp += KeyUpHook;
             Hook.Install();
-
         }
         //Keyboard Hook :
         List<KeyboardHook.VKeys> vKeys = new List<KeyboardHook.VKeys>();
