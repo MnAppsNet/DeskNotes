@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Threading;
 using System.Windows.Threading;
+using System.Linq;
 
 namespace DeskNotes
 {
@@ -19,7 +20,7 @@ namespace DeskNotes
         private Point defaultArrowLocation;
         private string CurrentFile = "";
         private int sideDocSpacing = 2;
-        KeyboardHook Hook;
+        private static KeyboardHook Hook;
         //Variables to open and close the panel :
         KeyboardHook.VKeys[] showShortcut = { KeyboardHook.VKeys.LCONTROL, KeyboardHook.VKeys.LSHIFT, KeyboardHook.VKeys.KEY_A }; //The length of show and hide shortcuts should be the same
         KeyboardHook.VKeys[] hideShortcut = { KeyboardHook.VKeys.LCONTROL, KeyboardHook.VKeys.LSHIFT, KeyboardHook.VKeys.KEY_D }; //Which means the same amount of buttons to be pressed
@@ -222,20 +223,13 @@ namespace DeskNotes
         List<KeyboardHook.VKeys> vKeys = new List<KeyboardHook.VKeys>();
         private void KeyDownHook(KeyboardHook.VKeys key)
         {
-            try
-            {
-                if (vKeys[vKeys.Count - 1] == key) return;
-            }
-            catch { }
-
             vKeys.Add(key);
-
-            if (vKeys.Count >= showShortcut.Length)
+            bool ok; ;
+            if (vKeys.Count == showShortcut.Length)
             {
-                bool ok = true;
-
+                ok = true;
                 //Check Show Panel
-                foreach(KeyboardHook.VKeys k in showShortcut)
+                foreach (KeyboardHook.VKeys k in showShortcut)
                 {
                     if (!vKeys.Contains(k))
                     {
@@ -244,8 +238,17 @@ namespace DeskNotes
                     }
                 }
                 if (ok) Show_Panel();
+            }
+            else if (vKeys.Count > showShortcut.Length)
+            {
+                vKeys.Clear();
+                vKeys.Add(key);
+            }
 
-                //Check Hide Panel
+
+            //Check Hide Panel
+            if (vKeys.Count == hideShortcut.Length)
+            {
                 ok = true;
                 foreach (KeyboardHook.VKeys k in hideShortcut)
                 {
@@ -256,8 +259,11 @@ namespace DeskNotes
                     }
                 }
                 if (ok) Hide_Panel();
-
-                vKeys.RemoveAt(vKeys.Count - 1);
+            }
+            else if (vKeys.Count > showShortcut.Length)
+            {
+                vKeys.Clear();
+                vKeys.Add(key);
             }
         }
         private void KeyUpHook(KeyboardHook.VKeys key)

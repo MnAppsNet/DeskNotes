@@ -357,7 +357,7 @@ public class KeyboardHook
 
     private delegate IntPtr KeyboardHookHandler(int nCode, IntPtr wParam, IntPtr lParam);
 
-    private KeyboardHookHandler hookHandler;
+    private static KeyboardHookHandler hookHandler;
 
     public delegate void KeyboardHookCallback(VKeys key);
 
@@ -373,7 +373,7 @@ public class KeyboardHook
 
     public void Install()
     {
-        hookHandler = HookFunc;
+        hookHandler = new KeyboardHookHandler(HookFunc);
         hookID = SetHook(hookHandler);
     }
 

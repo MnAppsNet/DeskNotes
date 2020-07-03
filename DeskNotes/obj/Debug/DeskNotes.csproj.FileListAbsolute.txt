@@ -17,3 +17,4 @@ C:\Users\ekalyvas\Source\Repos\MnAppsNet\DeskNotes\DeskNotes\obj\Debug\DeskNotes
 C:\Users\ekalyvas\Source\Repos\MnAppsNet\DeskNotes\DeskNotes\obj\Debug\DeskNotes.pdb
 C:\Users\ekalyvas\Source\Repos\MnAppsNet\DeskNotes\DeskNotes\obj\Debug\DeskNotes.Main.resources
 C:\Users\ekalyvas\Source\Repos\MnAppsNet\DeskNotes\DeskNotes\obj\Debug\DeskNotes.document.resources
+C:\Users\ekalyvas\Source\Repos\MnAppsNet\DeskNotes\DeskNotes\obj\Debug\DeskNotes.csproj.CoreCompileInputs.cache
