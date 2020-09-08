@@ -22,8 +22,8 @@ namespace DeskNotes
         private int sideDocSpacing = 2;
         private static KeyboardHook Hook;
         //Variables to open and close the panel :
-        KeyboardHook.VKeys[] showShortcut = { KeyboardHook.VKeys.LCONTROL, KeyboardHook.VKeys.LSHIFT, KeyboardHook.VKeys.KEY_A }; //The length of show and hide shortcuts should be the same
-        KeyboardHook.VKeys[] hideShortcut = { KeyboardHook.VKeys.LCONTROL, KeyboardHook.VKeys.LSHIFT, KeyboardHook.VKeys.KEY_D }; //Which means the same amount of buttons to be pressed
+        KeyboardHook.VKeys[] showShortcut = { KeyboardHook.VKeys.LCONTROL, KeyboardHook.VKeys.LSHIFT, KeyboardHook.VKeys.LEFT }; //The length of show and hide shortcuts should be the same
+        //KeyboardHook.VKeys[] hideShortcut = { KeyboardHook.VKeys.LCONTROL, KeyboardHook.VKeys.LSHIFT, KeyboardHook.VKeys.KEY_D }; //Which means the same amount of buttons to be pressed
         #endregion ------------------
 
         public Main() //Constructor
@@ -87,7 +87,8 @@ namespace DeskNotes
                 {
                     TextView.LoadFile(Properties.Settings.Default.last_opened_file);
                 }
-                catch {
+                catch
+                {
                     TextView.Text = System.IO.File.ReadAllText(Properties.Settings.Default.last_opened_file);
                 }
                 CurrentFile = Properties.Settings.Default.last_opened_file;
@@ -127,7 +128,7 @@ namespace DeskNotes
             docs.Add(doc);
 
             //Documents :
-            foreach( string s in Properties.Settings.Default.documents)
+            foreach (string s in Properties.Settings.Default.documents)
             {
                 if (!s.Contains("?")) { ind++; continue; }
 
@@ -135,7 +136,8 @@ namespace DeskNotes
                 doc_new.Show();
                 doc_new.Size = new Size(arrow.Size.Width / 2, arrow.Size.Height / 2);
                 yPossition = arrow.Location.Y - i * (doc_new.Height + sideDocSpacing);
-                if (s.Split('?').Length >= 3) { 
+                if (s.Split('?').Length >= 3)
+                {
                     if (s.Split('?').GetValue(2).ToString() != "")
                     {
                         int.TryParse(s.Split('?').GetValue(2).ToString(), out yPossition);
@@ -237,34 +239,40 @@ namespace DeskNotes
                         break;
                     }
                 }
-                if (ok) Show_Panel();
-            }
-            else if (vKeys.Count > showShortcut.Length)
-            {
-                vKeys.Clear();
-                vKeys.Add(key);
-            }
-
-
-            //Check Hide Panel
-            if (vKeys.Count == hideShortcut.Length)
-            {
-                ok = true;
-                foreach (KeyboardHook.VKeys k in hideShortcut)
+                if (ok)
                 {
-                    if (!vKeys.Contains(k))
-                    {
-                        ok = false;
-                        break;
-                    }
+                    if (!this.Visible)
+                        Show_Panel();
+                    else
+                        Hide_Panel();
                 }
-                if (ok) Hide_Panel();
             }
             else if (vKeys.Count > showShortcut.Length)
             {
                 vKeys.Clear();
                 vKeys.Add(key);
             }
+
+
+            ////Check Hide Panel
+            //if (vKeys.Count == hideShortcut.Length)
+            //{
+            //    ok = true;
+            //    foreach (KeyboardHook.VKeys k in hideShortcut)
+            //    {
+            //        if (!vKeys.Contains(k))
+            //        {
+            //            ok = false;
+            //            break;
+            //        }
+            //    }
+            //    if (ok) Hide_Panel();
+            //}
+            //else if (vKeys.Count > showShortcut.Length)
+            //{
+            //    vKeys.Clear();
+            //    vKeys.Add(key);
+            //}
         }
         private void KeyUpHook(KeyboardHook.VKeys key)
         {
@@ -586,7 +594,7 @@ namespace DeskNotes
                             Control tmprtb = TextView;
                             //try
                             //{
-                                Functions.CheckAndExecute(ref tmprtb, funcIndex);
+                            Functions.CheckAndExecute(ref tmprtb, funcIndex);
                             //}
                             //catch { }
                         }
@@ -652,6 +660,5 @@ namespace DeskNotes
             }
         }
         #endregion ---------------------------------
-
     }
 }
