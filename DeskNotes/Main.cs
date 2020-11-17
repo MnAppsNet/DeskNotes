@@ -22,7 +22,8 @@ namespace DeskNotes
         private int sideDocSpacing = 2;
         private static KeyboardHook Hook;
         //Variables to open and close the panel :
-        KeyboardHook.VKeys[] showShortcut = { KeyboardHook.VKeys.LCONTROL, KeyboardHook.VKeys.LSHIFT, KeyboardHook.VKeys.LEFT }; //The length of show and hide shortcuts should be the same
+        KeyboardHook.VKeys[] showShortcut = { KeyboardHook.VKeys.LSHIFT, KeyboardHook.VKeys.LMENU, KeyboardHook.VKeys.LEFT }; //The length of show and hide shortcuts should be the same
+        //KeyboardHook.VKeys[] showShortcut = { KeyboardHook.VKeys.LCONTROL, KeyboardHook.VKeys.LSHIFT, KeyboardHook.VKeys.LEFT }; //The length of show and hide shortcuts should be the same
         //KeyboardHook.VKeys[] hideShortcut = { KeyboardHook.VKeys.LCONTROL, KeyboardHook.VKeys.LSHIFT, KeyboardHook.VKeys.KEY_D }; //Which means the same amount of buttons to be pressed
         #endregion ------------------
 
@@ -342,6 +343,7 @@ namespace DeskNotes
             string option = ((ToolStripMenuItem)sender).Tag.ToString();
             if (option != "")
                 Format(option);
+            
         }
         private void FormatSelection(object sender, KeyEventArgs e)
         {

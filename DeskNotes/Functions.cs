@@ -19,9 +19,10 @@ namespace DeskNotes
             @"[0123456789( )+-\/*^,.]+;",                                                             // Numeric expression calculation
             @"\/([bBiIuUpPsS])(.*);",                                                                 // Style text              : $/OP TEXT; where OP = i, b or u             
             @"([pP]:)(.*);",                                                                          // Open process            : $P:PROCESS; where process an executable, to delete an process entry use : $P:PROCESS.d; 
-            @"([sS]:)(.*);"                                                                           // Search on the internet  : $S:SEARCH_STRING;
-
+            @"([sS]:)(.*);",                                                                           // Search on the internet  : $S:SEARCH_STRING;
+            @"---;"
         };
+        private static string RTF_Indicator = @"{\rtf1";
 
         #region -------- Public Methods --------
         public static string CommandSymbol; //The symbol that commands have to start with
@@ -54,7 +55,14 @@ namespace DeskNotes
 
                             if (results[j] == null) continue;
                             Tools.ExecuteControlMethod(text, "Select", new object[] { matches[j].Index, matches[j].Length });
-                            Tools.SetControlProperty(text, "SelectedText", results[j]);
+                            if (results[j].StartsWith(RTF_Indicator))
+                            {
+                                Tools.SetControlProperty(text, "SelectedRtf", results[j]);
+                            }
+                            else
+                            {
+                                Tools.SetControlProperty(text, "SelectedText", results[j]);
+                            }
                         }
                 }
             }
@@ -92,7 +100,8 @@ namespace DeskNotes
                 {
                     results[i] = getDate(match);
                 }
-                else if (func == functions[1]){ //Full Date
+                else if (func == functions[1])
+                { //Full Date
                     results[i] = DateTime.Now.Date.ToShortDateString();
                 }
                 else if (func == functions[2]) //Full Time
@@ -144,6 +153,10 @@ namespace DeskNotes
                 {
                     results[i] = "";
                     searchString(match);
+                }
+                else if (func == functions[7]) //Search string
+                {
+                    results[i] = RTF_Indicator + @"\ansi\ansicpg1252\deff0\deflang1033\uc1{ {\pict\wmetafile8\picw12777\pich117\picwgoal7245\pichgoal60 0100090000035b00000004000800000000000400000003010800050000000b0200000000050000000c022100280e030000001e0008000000fa0200000300000000008000040000002d01000007000000fc020100000000000000040000002d010100080000002503020011001100170e110008000000fa0200000000000000000000040000002d01020007000000fc020000ffffff000000040000002d01030004000000f0010000040000002701ffff030000000000} \pard\qc\line }";
                 }
                 i++;
             }
